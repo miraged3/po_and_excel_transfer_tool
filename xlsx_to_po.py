@@ -36,17 +36,17 @@ msgstr ""
 """)
 for i in range(2, length + 2):
     print('正在处理第' + str(i) + '行')
-    location = str(sht.range('A' + str(i)).value).replace('\n', '\\n')
-    if location is not None and '' != location:
+    if sht.range('A' + str(i)).value is not None:
+        location = str(sht.range('A' + str(i)).value).replace('\n', '\\n')
         write_line('#: ' + location, f, quote=False)
-    msgctxt = str(sht.range('B' + str(i)).value).replace('\n', '\\n')
-    if msgctxt is not None and '' != msgctxt:
+    if sht.range('B' + str(i)).value is not None:
+        msgctxt = sht.range('B' + str(i)).value.replace('\n', '\\n')
         write_line('msgctxt \"' + msgctxt, f)
-    source = str(sht.range('C' + str(i)).value).replace('\n', '\\n')
-    if source is not None and '' != source:
+    if sht.range('C' + str(i)).value is not None:
+        source = str(sht.range('C' + str(i)).value).replace('\n', '\\n')
         write_line('msgid \"' + source, f)
-    target = str(sht.range('D' + str(i)).value).replace('\n', '\\n')
-    if target is not None and '' != target:
+    if sht.range('D' + str(i)).value is not None:
+        target = str(sht.range('D' + str(i)).value).replace('\n', '\\n')
         write_line('msgstr \"' + target, f, newline=True)
 f.close()
 wb.close()
