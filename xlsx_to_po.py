@@ -41,12 +41,24 @@ for i in range(2, length + 2):
         write_line('#: ' + location, f, quote=False)
     if sht.range('B' + str(i)).value is not None:
         msgctxt = sht.range('B' + str(i)).value.replace('\n', '\\n')
+        if isinstance(msgctxt, float):
+            msgctxt_int = int(msgctxt)
+            if msgctxt_int == msgctxt:
+                msgctxt = msgctxt_int
         write_line('msgctxt \"' + msgctxt, f)
     if sht.range('C' + str(i)).value is not None:
         source = str(sht.range('C' + str(i)).value).replace('\n', '\\n')
+        if isinstance(source, float):
+            source_int = int(source)
+            if source_int == source:
+                source = source_int
         write_line('msgid \"' + source, f)
     if sht.range('D' + str(i)).value is not None:
         target = str(sht.range('D' + str(i)).value).replace('\n', '\\n')
+        if isinstance(target, float):
+            target_int = int(target)
+            if target_int == target:
+                target = target_int
         write_line('msgstr \"' + target, f, newline=True)
 f.close()
 wb.close()
