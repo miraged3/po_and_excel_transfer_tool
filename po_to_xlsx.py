@@ -21,19 +21,19 @@ for line in lines:
         is_on_location = True
     elif line.startswith('msgctxt ') and is_on_location:
         msgctxt1 = line.split('msgctxt ')[1]
-        msgctxt = msgctxt1.replace('"', '')
+        msgctxt = msgctxt1[1:len(msgctxt1) - 2]
         if msgctxt.startswith('\''):
             msgctxt = '\'' + msgctxt
         sht.range(f'B{current_line}').value = msgctxt
     elif line.startswith('msgid ') and is_on_location:
         source1 = line.split('msgid ')[1]
-        source = source1.replace('"', '')
+        source = source1[1:len(source1) - 2]
         if source.startswith('\''):
             source = '\'' + source
         sht.range(f'C{current_line}').value = source
     elif line.startswith('msgstr ') and is_on_location:
         target1 = line.split('msgstr ')[1]
-        target = target1.replace('"', '')
+        target = target1[1:len(target1) - 2]
         if target.startswith('\''):
             target = '\'' + target
         sht.range(f'D{current_line}').value = target
