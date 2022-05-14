@@ -19,6 +19,15 @@ def write_line(content: str, txt, newline=False, quote=True):
             txt.write('\n')
 
 
+def isfloat(x):
+    try:
+        float(x)
+    except ValueError:
+        return False
+    else:
+        return True
+
+
 print('xlsx转po工具 by mirage')
 location = input('输入xlsx文件路径：')
 app = xw.App(visible=False, add_book=False)
@@ -41,24 +50,21 @@ for i in range(2, length + 2):
         write_line('#: ' + location, f, quote=False)
     if sht.range('B' + str(i)).value is not None:
         msgctxt = sht.range('B' + str(i)).value.replace('\n', '\\n')
-        if isinstance(msgctxt, float):
-            msgctxt_int = int(msgctxt)
-            if msgctxt_int == msgctxt:
-                msgctxt = msgctxt_int
-        write_line('msgctxt \"' + msgctxt, f)
+        if isfloat(msgctxt):
+            msgctxt_int = int(float(msgctxt))
+            msgctxt = msgctxt_int
+        write_line('msgctxt \"' + str(msgctxt), f)
     if sht.range('C' + str(i)).value is not None:
         source = str(sht.range('C' + str(i)).value).replace('\n', '\\n')
-        if isinstance(source, float):
-            source_int = int(source)
-            if source_int == source:
-                source = source_int
-        write_line('msgid \"' + source, f)
+        if isfloat(source):
+            source_int = int(float(source))
+            source = source_int
+        write_line('msgid \"' + str(source), f)
     if sht.range('D' + str(i)).value is not None:
         target = str(sht.range('D' + str(i)).value).replace('\n', '\\n')
-        if isinstance(target, float):
-            target_int = int(target)
-            if target_int == target:
-                target = target_int
-        write_line('msgstr \"' + target, f, newline=True)
+        if isfloat(target):
+            target_int = int(float(target))
+            target = target_int
+        write_line('msgstr \"' + str(target), f, newline=True)
 f.close()
 wb.close()
