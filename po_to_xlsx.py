@@ -19,8 +19,8 @@ if __name__ == '__main__':
     for line in lines:
         if line.startswith('#: '):
             print('正在处理第' + str(current_line) + '行')
-            location = line.split('#: ')[1]
-            sht.range(f'A{current_line}').value = location
+            file_info = line.split('#: ')[1]
+            sht.range(f'A{current_line}').value = file_info
             is_on_location = True
         elif line.startswith('msgctxt ') and is_on_location:
             msgctxt1 = line.split('msgctxt ')[1]
