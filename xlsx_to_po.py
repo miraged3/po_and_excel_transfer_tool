@@ -3,9 +3,12 @@ import os
 import xlwings as xw
 
 
-def write_line(content: str, txt, newline=False, quote=True):
+def write_line(content: str, txt, newline=False, quote=True, comment=False):
     if content.endswith('\n'):
-        content = content[:len(content) - 2]
+        if comment:
+            content = content[:len(content) - 1]
+        else:
+            content = content[:len(content) - 2]
         if quote:
             txt.write(content + '\"\n')
         else:
@@ -47,18 +50,16 @@ if __name__ == '__main__':
     print('共有' + str(length) + '行')
     new_filename = os.path.basename(location).rpartition('.')[0] + '.po'
     f = open(new_filename, 'a', encoding='utf-8')
-    f.write("""msgid ""
-    msgstr ""
-    "MIME-Version: 1.0\\n"
-    "Content-Type: text/plain; charset=UTF-8\\n"
-    "Content-Transfer-Encoding: 8bit\\n"
-
-    """)
+    f.write('msgid \"\"\n')
+    f.write('msgstr \"\"\n')
+    f.write('\"MIME-Version: 1.0\\n\"\n')
+    f.write('\"Content-Type: text/plain; charset=UTF-8\\n\"\n')
+    f.write('\"Content-Transfer-Encoding: 8bit\\n\"\n\n')
     for i in range(2, length + 2):
         print('正在处理第' + str(i - 1) + '行')
         if sht.range('A' + str(i)).value is not None:
-            location = str(sht.range('A' + str(i)).value)
-            write_line('#: ' + location, f, quote=False)
+            file_info = str(sht.range('A' + str(i)).value)
+            write_line('#: ' + file_info, f, quote=False, comment=True)
         if sht.range('B' + str(i)).value is not None:
             msgctxt = sht.range('B' + str(i)).value
             if isfloat(msgctxt):
